@@ -1,0 +1,2 @@
+# Raspberry Pi Debug Probe
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", MODE="0666"
