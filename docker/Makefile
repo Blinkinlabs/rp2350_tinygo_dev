@@ -23,11 +23,6 @@ all:
 docker-image:
 	docker build -t ${DOCKER_IMAGE_NAME} -f Dockerfile .
 
-${TARGET}: ../src/*.go
-	docker ${COMMON} \
-		-it ${DOCKER_IMAGE_NAME} \
-        /usr/bin/bash -c "cd src; tinygo build -target=pico -serial=uart main.go"
-
 run:
 	docker ${COMMON} \
 		--privileged \
@@ -36,7 +31,13 @@ run:
 		-it ${DOCKER_IMAGE_NAME} \
 		/usr/bin/bash
 
-flash: ${TARGET}
+build:
+	docker ${COMMON} \
+		--privileged \
+		-it ${DOCKER_IMAGE_NAME} \
+		/usr/bin/bash -c "cd src; make"
+
+flash:
 	docker ${COMMON} \
 		--privileged \
 		-v /dev/bus/usb:/dev/bus/usb \
