@@ -45,8 +45,10 @@ flash:
 		/usr/local/bin/openocd \
 			-f interface/cmsis-dap.cfg \
 			-f target/rp2350.cfg \
+			-c "rp2350.dap.core1 cortex_m reset_config sysresetreq" \
 			-c "adapter speed 5000" \
 			-c "program src/main.elf verify ; reset ; exit"
+
 
 # This should work without --net=host ?
 openocd-server:
