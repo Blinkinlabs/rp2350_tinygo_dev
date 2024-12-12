@@ -86,4 +86,4 @@ USER go
 #RUN make gen-device
 #
 
-
+COPY .vimrc /home/go
