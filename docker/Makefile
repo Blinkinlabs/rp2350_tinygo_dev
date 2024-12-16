@@ -17,8 +17,7 @@ all:
 	@echo "run                  (for debugging) Run a shell using the above image"
 	@echo "flash                Build the firmware, then flash using openocd"
 	@echo "openocd-server       Start an OpenOCD session, attached to the target"
-	@echo "gdb-bootloader     Start a GDB session configured for debugging the rp2350 bootloader"
-	@echo "gdb-app            Connect to the debug server using gdb-multiarch"
+	@echo "gdb                  Connect to the debug server using gdb-multiarch"
 
 docker-image:
 	docker build -t ${DOCKER_IMAGE_NAME} -f Dockerfile .
@@ -61,15 +60,7 @@ openocd-server:
 			-f target/rp2350.cfg \
 			-c "adapter speed 5000"
 
-gdb-bootloader:
-	docker ${COMMON} \
-		--net=host \
-		-it ${DOCKER_IMAGE_NAME} \
-		/usr//bin/gdb-multiarch \
-		--se=/pico/arm-bootrom.elf \
-		-x /build/gdb-bootloader-setup
-
-gdb-app:
+gdb:
 	docker ${COMMON} \
 		--net=host \
 		-it ${DOCKER_IMAGE_NAME} \

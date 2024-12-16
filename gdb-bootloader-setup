@@ -1,4 +1,0 @@
-target extended-remote localhost:3333
-set substitute-path /home/graham/dev/amy/amy-bootrom /pico/pico-bootrom-rp2350
-set remote hardware-breakpoint-limit 4
-monitor reset init
