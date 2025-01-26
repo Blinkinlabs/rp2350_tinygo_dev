@@ -15,7 +15,8 @@ all:
 	@echo "Build targets: "
 	@echo "docker-image         Build an image for building tools with Docker"
 	@echo "run                  (for debugging) Run a shell using the above image"
-	@echo "flash                Build the firmware, then flash using openocd"
+	@echo "build                Build the firmware"
+	@echo "flash                Flash the firmware using openocd"
 	@echo "openocd-server       Start an OpenOCD session, attached to the target"
 	@echo "gdb                  Connect to the debug server using gdb-multiarch"
 
@@ -33,20 +34,26 @@ run:
 build:
 	docker ${COMMON} \
 		--privileged \
-		-it ${DOCKER_IMAGE_NAME} \
+		-i ${DOCKER_IMAGE_NAME} \
 		/usr/bin/bash -c "cd src; make"
+
+fmt-check:
+	docker ${COMMON} \
+		--privileged \
+		-i ${DOCKER_IMAGE_NAME} \
+		/usr/bin/bash -c "cd tinygo; make fmt-check"
 
 flash:
 	docker ${COMMON} \
 		--privileged \
 		-v /dev/bus/usb:/dev/bus/usb \
-		-it ${DOCKER_IMAGE_NAME} \
+		-i ${DOCKER_IMAGE_NAME} \
 		/usr/local/bin/openocd \
 			-f interface/cmsis-dap.cfg \
 			-f target/rp2350.cfg \
 			-c "rp2350.dap.core1 cortex_m reset_config sysresetreq" \
 			-c "adapter speed 5000" \
-			-c "program src/main.elf verify ; reset ; exit"
+			-c "program src/main.elf verify ; reset; reset; exit"
 
 
 # This should work without --net=host ?
