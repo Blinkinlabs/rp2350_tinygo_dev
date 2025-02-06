@@ -47,11 +47,11 @@ ENV PATH=${PATH}:/usr/local/go/bin
 
 # Use premade (bring your own) LLVM for TinyGo
 WORKDIR /llvm
-RUN echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' | tee /etc/apt/sources.list.d/llvm.list
+RUN echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-19 main' | tee /etc/apt/sources.list.d/llvm.list
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN apt-get -qq update -y
 RUN apt-get install -y --no-install-recommends \
-    clang-18 llvm-18-dev lld-18 libclang-18-dev
+    clang-19 llvm-19-dev lld-19 libclang-19-dev
 
 # OpenOCD
 WORKDIR /pico
